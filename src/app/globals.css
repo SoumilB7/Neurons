@@ -29,8 +29,8 @@ body {
 }
 
 ::selection {
-  background: #111111;
-  color: #ffffff;
+  background: #e5e5e5;
+  color: #111111;
 }
 
 /* Smooth scrollbar */
