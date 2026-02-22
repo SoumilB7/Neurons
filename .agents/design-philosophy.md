@@ -1,4 +1,4 @@
-# Design Philosophy (STRICT — do not deviate)
+# Design Philosophy (STRICT, do not deviate)
 
 This project follows a rigorous monochrome minimalist aesthetic. Every design choice is intentional. Treat any deviation as a breaking change to the visual language.
 

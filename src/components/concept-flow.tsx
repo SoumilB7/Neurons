@@ -354,18 +354,19 @@ function LayersDiagram() {
 function CapacityBottleneck() {
     return (
         <section className="py-24 border-t border-neutral-100">
-            <FadeIn className="mb-16 text-center max-w-3xl mx-auto">
+            <FadeIn className="mb-6 text-center max-w-3xl mx-auto">
                 <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-neutral-900 mb-6">
-                    Capacity Limits & Abstraction
+                    But wait, how does it know when to fire?
                 </h2>
-                <div className="space-y-4 text-lg text-neutral-500 leading-relaxed">
-                    <p>
-                        A neural network cannot afford to memorize every single precise variation of a feature. If it dedicated a separate neuron to a line slanted at 41°, another for 42°, and another for 43°, it would quickly run out of capacity.
-                    </p>
-                    <p>
-                        Instead, it forces data through a <strong>bottleneck</strong>. This forces the network to <em className="text-neutral-900 font-medium">abstract</em>, grouping highly specific variations into a single, fuzzier "bucket" that activates for any loosely related feature.
-                    </p>
-                </div>
+                <p className="text-lg text-neutral-500 leading-relaxed">
+                    Imagine the network tried to memorize every exact variant of every feature. A neuron just for lines at 41°, another for 42°, another for 43°... it would take more storage than exists on Earth, and it still wouldn&apos;t generalize to anything it hadn&apos;t seen before.
+                </p>
+            </FadeIn>
+
+            <FadeIn delay={0.04} className="mb-16 text-center max-w-2xl mx-auto">
+                <p className="text-base text-neutral-400 leading-relaxed">
+                    Instead, real networks force information through a <strong className="text-neutral-700">bottleneck</strong>. That pressure is what creates abstraction, the network is <em className="text-neutral-600 not-italic">forced</em> to merge those near-identical things into a single, fuzzier bucket. This is not a design choice. It&apos;s a consequence of having limited capacity.
+                </p>
             </FadeIn>
 
             <FadeIn delay={0.06}>
@@ -444,18 +445,19 @@ function ConceptOverlap() {
 
     return (
         <section className="py-24 border-t border-neutral-100">
-            <FadeIn className="mb-16 text-center max-w-3xl mx-auto">
+            <FadeIn className="mb-6 text-center max-w-3xl mx-auto">
                 <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-neutral-900 mb-6">
-                    Concepts as Sets
+                    One neuron rarely works alone
                 </h2>
-                <div className="space-y-4 text-lg text-neutral-500 leading-relaxed">
-                    <p>
-                        A neural network rarely dedicates a single neuron to a completely isolated idea. Instead, it relies on <strong className="text-neutral-900 font-medium">distributed representations</strong>, where a complex concept is simply defined by the simultaneous activation of a specific <em>set</em> of smaller feature neurons.
-                    </p>
-                    <p>
-                        Because of this, similar concepts naturally <strong className="text-neutral-900 font-medium">overlap</strong>. They share a large foundational set of neurons, varying only in a few specific activations. Hover over the concepts below to see their underlying sets.
-                    </p>
-                </div>
+                <p className="text-lg text-neutral-500 leading-relaxed">
+                    Now here&apos;s where it gets interesting. No neuron in isolation &ldquo;knows&rdquo; what a cat is. Instead, the network represents &ldquo;cat&rdquo; as a <em className="text-neutral-700 not-italic">pattern of many neurons firing together</em>, whisker-texture firing, pointy-ear firing, slit-pupil firing, fur-sheen firing.
+                </p>
+            </FadeIn>
+
+            <FadeIn delay={0.04} className="mb-16 text-center max-w-2xl mx-auto">
+                <p className="text-base text-neutral-400 leading-relaxed">
+                    This is called a <strong className="text-neutral-700">distributed representation</strong>, and it has a beautiful side effect: similar concepts share enormous overlap in their firing sets. A cartoon cat and a real cat might share 80% of the same neurons. That shared foundation is <em className="text-neutral-600 not-italic">why the network can generalize</em>, it doesn&apos;t need to memorize every possible cat, just the overlapping pattern. Hover below to see how two concepts share a core.
+                </p>
             </FadeIn>
 
             <FadeIn delay={0.06}>
@@ -558,7 +560,10 @@ export function ConceptFlow() {
                         A neuron is <br className="hidden md:block" />a <span className="text-neutral-500">concept</span>.
                     </h1>
                     <p className="text-lg md:text-xl text-neutral-500 max-w-2xl mx-auto leading-relaxed mt-8">
-                        Not just circles and math. In advanced networks, a neuron fundamentally learns to represent any identifiable <i className="text-neutral-700 not-italic font-medium">thing</i>.
+                        Forget the textbook diagram of circles connected by arrows. In a trained neural network, something far more interesting is happening, each neuron has quietly learned to be a detector for a specific, identifiable <i className="text-neutral-700 not-italic font-medium">thing</i>.
+                    </p>
+                    <p className="text-base text-neutral-400 max-w-xl mx-auto leading-relaxed mt-4">
+                        Scroll to understand what that means.
                     </p>
                 </FadeIn>
 
@@ -604,10 +609,19 @@ export function ConceptFlow() {
 
             {/* 2. Tangible / Intangible */}
             <section className="py-20">
-                <FadeIn className="text-center mb-16">
+                <FadeIn className="text-center mb-6 max-w-3xl mx-auto">
                     <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-neutral-900 mb-6">
                         Any <i className="text-neutral-500 not-italic">thing</i>
                     </h2>
+                    <p className="text-lg text-neutral-500 leading-relaxed">
+                        When we say a neuron represents a "concept", we mean that word completely literally, and broadly. After enough training, different neurons specialize in wildly different kinds of things.
+                    </p>
+                </FadeIn>
+
+                <FadeIn delay={0.04} className="text-center mb-12 max-w-2xl mx-auto">
+                    <p className="text-base text-neutral-400 leading-relaxed">
+                        Some of these are things you could point at on a street. Others are patterns so subtle they don&apos;t even have human names.
+                    </p>
                 </FadeIn>
 
                 <div className="grid md:grid-cols-2 gap-4 items-stretch">
@@ -618,7 +632,7 @@ export function ConceptFlow() {
                             </div>
                             <h3 className="text-lg font-semibold mb-3 text-neutral-900 tracking-tight">Tangible</h3>
                             <p className="text-sm leading-relaxed text-neutral-500">
-                                Concepts we can easily name and point to. A golden retriever, a chair, a red Stop sign, or the shape of a perfect triangle.
+                                Things you could photograph. A golden retriever, a chair, a stop sign, the shape of a triangle. One neuron might activate every time it sees a curve, nothing more, nothing less.
                             </p>
                         </div>
                     </FadeIn>
@@ -629,7 +643,7 @@ export function ConceptFlow() {
                             </div>
                             <h3 className="text-lg font-semibold mb-3 text-neutral-900 tracking-tight">Non-Tangible</h3>
                             <p className="text-sm leading-relaxed text-neutral-500">
-                                Abstract patterns and heuristics. Syntax rules in language, subtler emotional tones, and fuzzy patterns that human language lacks words to describe.
+                                Things you couldn&apos;t easily photograph. The rhythm of a sentence, a vague emotional register in writing, a subtle visual texture. These are real patterns, just ones human language struggles to name.
                             </p>
                         </div>
                     </FadeIn>
@@ -638,17 +652,27 @@ export function ConceptFlow() {
 
             {/* 3. Activation */}
             <section className="py-24 flex flex-col items-center">
-                <FadeIn className="text-center mb-12 max-w-3xl">
+                <FadeIn className="text-center mb-6 max-w-3xl">
                     <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-neutral-900 mb-6">
-                        Activation = Presence
+                        So what does it mean to &ldquo;fire&rdquo;?
                     </h2>
                     <p className="text-lg leading-relaxed text-neutral-500">
-                        When a neuron fires, it is simply signaling the <span className="text-neutral-900 font-medium">presence or absence</span> of its corresponding concept in the real world snippet it is looking at.
+                        You&apos;ve probably heard that neurons &ldquo;activate&rdquo;. But what does that actually mean in terms of concepts?
+                    </p>
+                </FadeIn>
+                <FadeIn delay={0.04} className="text-center mb-12 max-w-2xl">
+                    <p className="text-base text-neutral-400 leading-relaxed">
+                        Think of it this way: when the network scans a piece of input, each neuron is essentially asking a yes/no question, <em className="text-neutral-700 not-italic">is my thing here right now?</em> A high activation means yes. Near-zero means no.
                     </p>
                 </FadeIn>
 
                 <FadeIn delay={0.06} className="w-full flex justify-center">
                     <ActivationDemo />
+                </FadeIn>
+                <FadeIn delay={0.1} className="text-center mt-8 max-w-xl">
+                    <p className="text-sm text-neutral-400 leading-relaxed">
+                        That&apos;s it. The neuron isn&apos;t computing anything elaborate, it&apos;s just waving a flag. <em className="text-neutral-600 not-italic">Present.</em> Or not.
+                    </p>
                 </FadeIn>
             </section>
 
@@ -660,12 +684,18 @@ export function ConceptFlow() {
 
             {/* 4. The Layers */}
             <section className="py-24">
-                <FadeIn className="text-center mb-12 max-w-3xl mx-auto">
+                <FadeIn className="text-center mb-6 max-w-3xl mx-auto">
                     <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-neutral-900 mb-6">
-                        The layers
+                        Concepts built on top of concepts
                     </h2>
                     <p className="text-lg leading-relaxed text-neutral-500">
-                        As we go deeper down the layers, neural networks actually condition representation to be <strong className="text-neutral-900 font-medium">concepts at different depth levels</strong>. For example, raw pixels combine into edges, building up to complex loops, and eventually recognizing the abstract number "3".
+                        If a single neuron is a concept-detector, then the whole network is a <em className="text-neutral-700 not-italic">concept-stacker</em>. The early layers detect raw, simple things, a dot, a diagonal line, a gradient. Those get wired together so middle layers can detect richer things, a curve, a loop, an angle. Those in turn feed the final layers, which recognize the most abstract ideas of all: a specific digit, a face, a word.
+                    </p>
+                </FadeIn>
+
+                <FadeIn delay={0.04} className="text-center mb-12 max-w-2xl mx-auto">
+                    <p className="text-base text-neutral-400 leading-relaxed">
+                        Click any digit on the right to see which concepts in earlier layers it relies on. Watch how specificity builds layer by layer.
                     </p>
                 </FadeIn>
 

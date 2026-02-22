@@ -1,4 +1,4 @@
-# Neurons Lab — Project Guide
+# Neurons Lab, Project Guide
 
 Neurons Lab is a focused workspace for neuroscience and deep learning concepts.
 

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: "Neurons Lab",
-    template: "%s — Neurons Lab",
+    template: "%s, Neurons Lab",
   },
   description:
     "Interactive modules for understanding brains, neural networks, and large language models.",

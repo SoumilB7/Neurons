@@ -1,4 +1,4 @@
-# Neurons Lab — Implementation Notes
+# Neurons Lab, Implementation Notes
 
 This project is currently in foundation mode.
 
