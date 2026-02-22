@@ -351,7 +351,7 @@ function LayersDiagram() {
     );
 }
 
-function AbstractionFusing() {
+function CapacityBottleneck() {
     return (
         <section className="py-24 border-t border-neutral-100">
             <FadeIn className="mb-16 text-center max-w-3xl mx-auto">
@@ -360,30 +360,35 @@ function AbstractionFusing() {
                 </h2>
                 <div className="space-y-4 text-lg text-neutral-500 leading-relaxed">
                     <p>
-                        A neural network cannot afford to memorize every single possible variation of a feature. If it dedicated a separate neuron to a line slanted at 41°, another for 42°, and another for 43°, it would quickly run out of capacity.
+                        A neural network cannot afford to memorize every single precise variation of a feature. If it dedicated a separate neuron to a line slanted at 41°, another for 42°, and another for 43°, it would quickly run out of capacity.
                     </p>
                     <p>
-                        Instead, it forces data through a <strong>bottleneck</strong>. This forces the network to <em className="text-neutral-900 font-medium">abstract</em>, grouping highly specific variations into a single, fuzzier "bucket" that activates for any loosely related concept.
+                        Instead, it forces data through a <strong>bottleneck</strong>. This forces the network to <em className="text-neutral-900 font-medium">abstract</em>, grouping highly specific variations into a single, fuzzier "bucket" that activates for any loosely related feature.
                     </p>
                 </div>
             </FadeIn>
 
             <FadeIn delay={0.06}>
-                <div className="w-full bg-white rounded-2xl border border-neutral-200 overflow-hidden flex flex-col p-8 md:p-12 relative">
-                    <div className="absolute top-0 bottom-0 left-[45%] right-[25%] bg-neutral-50 border-x border-neutral-100 flex items-center justify-center">
-                        <div className="text-[10px] font-mono uppercase tracking-widest text-neutral-300 md:-rotate-90">
-                            Capacity Bottleneck
-                        </div>
-                    </div>
+                <div className="w-full bg-white rounded-2xl border border-neutral-200 overflow-hidden flex flex-col p-8 md:p-12 relative cursor-default">
+                    <svg viewBox="0 0 800 300" className="w-full h-auto min-w-[600px] select-none">
 
-                    <svg viewBox="0 0 800 300" className="w-full h-auto min-w-[600px] relative z-10">
+                        {/* Bottleneck Area Background */}
+                        <g>
+                            <rect x="420" y="0" width="80" height="300" fill="#fafafa" />
+                            <line x1="420" y1="0" x2="420" y2="300" stroke="#f5f5f5" strokeWidth="1" />
+                            <line x1="500" y1="0" x2="500" y2="300" stroke="#f5f5f5" strokeWidth="1" />
+                            <text x="460" y="150" fill="#d4d4d4" textAnchor="middle" transform="rotate(-90 460 150)" className="font-mono text-[10px] uppercase font-medium tracking-widest">
+                                Capacity Bottleneck
+                            </text>
+                        </g>
+
                         <g fill="none">
                             {/* Fusing Lines */}
-                            <path d="M 180 50 C 300 50, 400 150, 580 150" stroke="currentColor" strokeWidth="1.5" className="text-neutral-200" />
-                            <path d="M 180 100 C 300 100, 400 150, 580 150" stroke="currentColor" strokeWidth="1.5" className="text-neutral-300" />
+                            <path d="M 180 50 C 350 50, 400 150, 580 150" stroke="currentColor" strokeWidth="1.5" className="text-neutral-200" />
+                            <path d="M 180 100 C 350 100, 400 150, 580 150" stroke="currentColor" strokeWidth="1.5" className="text-neutral-300" />
                             <path d="M 180 150 L 580 150" stroke="currentColor" strokeWidth="2.5" className="text-neutral-900" />
-                            <path d="M 180 200 C 300 200, 400 150, 580 150" stroke="currentColor" strokeWidth="1.5" className="text-neutral-300" />
-                            <path d="M 180 250 C 300 250, 400 150, 580 150" stroke="currentColor" strokeWidth="1.5" className="text-neutral-200" />
+                            <path d="M 180 200 C 350 200, 400 150, 580 150" stroke="currentColor" strokeWidth="1.5" className="text-neutral-300" />
+                            <path d="M 180 250 C 350 250, 400 150, 580 150" stroke="currentColor" strokeWidth="1.5" className="text-neutral-200" />
                         </g>
 
                         <g fill="white" stroke="currentColor" strokeWidth="1.5">
@@ -395,25 +400,146 @@ function AbstractionFusing() {
                             <circle cx="150" cy="250" r="16" className="text-neutral-200" />
 
                             {/* Fused Node */}
-                            <circle cx="600" cy="150" r="24" className="text-neutral-900" strokeWidth="2" />
+                            <circle cx="610" cy="150" r="24" className="text-neutral-900" strokeWidth="2" />
                         </g>
 
                         <g fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="2">
                             {/* Specific Slashes */}
-                            <line x1="145" y1="58" x2="155" y2="42" className="text-neutral-200" />  {/* Steep slope */}
-                            <line x1="144" y1="106" x2="156" y2="94" className="text-neutral-300" /> {/* Slight steep */}
-                            <line x1="143" y1="157" x2="157" y2="143" className="text-neutral-900" /> {/* Perfect 45 */}
-                            <line x1="142" y1="204" x2="158" y2="196" className="text-neutral-300" /> {/* Gentle slope */}
-                            <line x1="141" y1="252" x2="159" y2="248" className="text-neutral-200" /> {/* Flat slope */}
+                            <line x1="145" y1="58" x2="155" y2="42" className="text-neutral-200" />
+                            <line x1="144" y1="106" x2="156" y2="94" className="text-neutral-300" />
+                            <line x1="143" y1="157" x2="157" y2="143" className="text-neutral-900" />
+                            <line x1="142" y1="204" x2="158" y2="196" className="text-neutral-300" />
+                            <line x1="141" y1="252" x2="159" y2="248" className="text-neutral-200" />
 
                             {/* Fused / Abstracted Slash */}
-                            <line x1="591" y1="159" x2="609" y2="141" className="text-neutral-900" strokeWidth="3.5" filter="blur(1px)" opacity="0.8" />
+                            <line x1="601" y1="159" x2="619" y2="141" className="text-neutral-900" strokeWidth="3.5" filter="blur(1px)" opacity="0.8" />
                         </g>
 
                         {/* Annotations */}
-                        <text x="150" y="295" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">High Specificity (Variance)</text>
-                        <text x="600" y="295" fill="#111111" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Fused Concept Bucket</text>
-                        <text x="600" y="200" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">"Any Slanted Line"</text>
+                        <text x="150" y="290" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">High Specificity (Variance)</text>
+                        <text x="610" y="290" fill="#111111" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Fused Concept Bucket</text>
+                        <text x="610" y="200" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">"Any Slanted Line"</text>
+                    </svg>
+                </div>
+            </FadeIn>
+        </section>
+    );
+}
+
+function ConceptOverlap() {
+    const [hoveredConcept, setHoveredConcept] = React.useState<number | null>(1);
+
+    const features = [
+        { id: 0, icon: <line x1="-5" y1="-5" x2="5" y2="5" strokeWidth="2" strokeLinecap="round" /> },
+        { id: 1, icon: <circle cx="0" cy="0" r="4" fill="currentColor" /> },
+        { id: 2, icon: <line x1="-6" y1="0" x2="6" y2="0" strokeWidth="2" strokeLinecap="round" /> },
+        { id: 3, icon: <path d="M -5 4 Q 0 -6 5 4" fill="none" strokeWidth="2" strokeLinecap="round" /> },
+        { id: 4, icon: <polygon points="0,-5 5,4 -5,4" fill="currentColor" /> },
+    ];
+
+    const concepts = [
+        { id: 1, y: 140, label: "Concept Alpha", connections: [0, 1, 2, 3] },
+        { id: 2, y: 260, label: "Concept Beta", connections: [1, 2, 3, 4] },
+    ];
+
+    return (
+        <section className="py-24 border-t border-neutral-100">
+            <FadeIn className="mb-16 text-center max-w-3xl mx-auto">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-neutral-900 mb-6">
+                    Concepts as Sets
+                </h2>
+                <div className="space-y-4 text-lg text-neutral-500 leading-relaxed">
+                    <p>
+                        A neural network rarely dedicates a single neuron to a completely isolated idea. Instead, it relies on <strong className="text-neutral-900 font-medium">distributed representations</strong>, where a complex concept is simply defined by the simultaneous activation of a specific <em>set</em> of smaller feature neurons.
+                    </p>
+                    <p>
+                        Because of this, similar concepts naturally <strong className="text-neutral-900 font-medium">overlap</strong>. They share a large foundational set of neurons, varying only in a few specific activations. Hover over the concepts below to see their underlying sets.
+                    </p>
+                </div>
+            </FadeIn>
+
+            <FadeIn delay={0.06}>
+                <div
+                    className="w-full bg-white rounded-2xl border border-neutral-200 overflow-hidden flex flex-col p-8 md:p-12 relative cursor-default"
+                    onMouseLeave={() => setHoveredConcept(1)}
+                >
+                    <svg viewBox="0 0 800 400" className="w-full h-auto min-w-[600px] select-none">
+                        {/* Headers */}
+                        <text x="200" y="40" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Base Feature Neurons</text>
+                        <text x="600" y="40" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">High-Level Concepts</text>
+
+                        {/* Paths */}
+                        <g fill="none">
+                            {concepts.map((concept) => (
+                                concept.connections.map(featId => {
+                                    const featY = 100 + featId * 50;
+                                    const isActive = hoveredConcept === concept.id;
+                                    const pathOpacity = isActive ? 0.6 : 0.05;
+                                    const pathStroke = isActive ? "text-neutral-900" : "text-neutral-300";
+                                    const strokeWidth = isActive ? 2 : 1;
+
+                                    return (
+                                        <path
+                                            key={`path-${concept.id}-${featId}`}
+                                            d={`M 220 ${featY} C 400 ${featY}, 400 ${concept.y}, 576 ${concept.y}`}
+                                            className={`transition-all duration-300 ${pathStroke}`}
+                                            stroke="currentColor"
+                                            strokeWidth={strokeWidth}
+                                            opacity={pathOpacity}
+                                        />
+                                    );
+                                })
+                            ))}
+                        </g>
+
+                        {/* Feature Nodes */}
+                        {features.map((feat, i) => {
+                            const featY = 100 + i * 50;
+                            const isActive = concepts.some(c => c.id === hoveredConcept && c.connections.includes(feat.id));
+                            const isShared = concepts.every(c => c.connections.includes(feat.id));
+                            const label = isShared ? "Shared Pattern" : "";
+
+                            return (
+                                <g key={`feat-${i}`} transform={`translate(200, ${featY})`} className={`transition-colors duration-300 ${isActive ? "text-neutral-900" : "text-neutral-300"}`}>
+                                    <circle cx="0" cy="0" r="16" fill="white" stroke="currentColor" strokeWidth={isActive ? 2 : 1.5} className="transition-all duration-300" />
+                                    {feat.icon}
+                                    {label && (
+                                        <text x="-32" y="3" fill="#a3a3a3" textAnchor="end" className={`font-mono text-[9px] uppercase font-medium tracking-widest transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-0"}`}>
+                                            {label}
+                                        </text>
+                                    )}
+                                </g>
+                            );
+                        })}
+
+                        {/* Concept Nodes */}
+                        {concepts.map((concept) => {
+                            const isActive = hoveredConcept === concept.id;
+
+                            return (
+                                <g
+                                    key={`concept-${concept.id}`}
+                                    transform={`translate(600, ${concept.y})`}
+                                    className={`transition-all duration-300 cursor-pointer ${isActive ? "text-neutral-900" : "text-neutral-300"}`}
+                                    onMouseEnter={() => setHoveredConcept(concept.id)}
+                                    // Make it work immediately on touch devices as well
+                                    onClick={() => setHoveredConcept(concept.id)}
+                                >
+                                    <circle cx="0" cy="0" r="24" fill="white" stroke="currentColor" strokeWidth={isActive ? 2.5 : 1.5} className="transition-all duration-300" />
+                                    <circle cx="0" cy="0" r="4" fill="currentColor" className={`transition-all duration-300 ${isActive ? "scale-100" : "scale-75 opacity-50"}`} />
+
+                                    <text x="40" y="4" fill="currentColor" textAnchor="start" className="font-sans text-sm font-medium transition-colors duration-300">
+                                        {concept.label}
+                                    </text>
+                                    <text x="40" y="22" fill="#a3a3a3" textAnchor="start" className={`font-mono text-[9px] uppercase tracking-widest transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-0"}`}>
+                                        Hover to Activate
+                                    </text>
+
+                                    {/* Interactive hit area */}
+                                    <circle cx="0" cy="0" r="40" fill="transparent" />
+                                </g>
+                            );
+                        })}
                     </svg>
                 </div>
             </FadeIn>
@@ -526,8 +652,11 @@ export function ConceptFlow() {
                 </FadeIn>
             </section>
 
-            {/* Abstraction Fusing Component */}
-            <AbstractionFusing />
+            {/* Capacity Bottlenecks */}
+            <CapacityBottleneck />
+
+            {/* Concept Overlap & Sets */}
+            <ConceptOverlap />
 
             {/* 4. The Layers */}
             <section className="py-24">
