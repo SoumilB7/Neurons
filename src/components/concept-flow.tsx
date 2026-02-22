@@ -286,10 +286,10 @@ function LayersDiagram() {
                     })}
 
                     {/* Labels */}
-                    <text x="100" y="375" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Raw Input</text>
-                    <text x="300" y="375" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Edges</text>
-                    <text x="500" y="375" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Features</text>
-                    <text x="700" y="375" fill="#111111" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Concepts (0-9)</text>
+                    <text x="100" y="375" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Depth 1</text>
+                    <text x="300" y="375" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Depth 2</text>
+                    <text x="500" y="375" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Depth 3</text>
+                    <text x="700" y="375" fill="#111111" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Output (0-9)</text>
                 </svg>
             </div>
 
@@ -348,6 +348,76 @@ function LayersDiagram() {
                 </div>
             </div>
         </div>
+    );
+}
+
+function AbstractionFusing() {
+    return (
+        <section className="py-24 border-t border-neutral-100">
+            <FadeIn className="mb-16 text-center max-w-3xl mx-auto">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-neutral-900 mb-6">
+                    Capacity Limits & Abstraction
+                </h2>
+                <div className="space-y-4 text-lg text-neutral-500 leading-relaxed">
+                    <p>
+                        A neural network cannot afford to memorize every single possible variation of a feature. If it dedicated a separate neuron to a line slanted at 41°, another for 42°, and another for 43°, it would quickly run out of capacity.
+                    </p>
+                    <p>
+                        Instead, it forces data through a <strong>bottleneck</strong>. This forces the network to <em className="text-neutral-900 font-medium">abstract</em>, grouping highly specific variations into a single, fuzzier "bucket" that activates for any loosely related concept.
+                    </p>
+                </div>
+            </FadeIn>
+
+            <FadeIn delay={0.06}>
+                <div className="w-full bg-white rounded-2xl border border-neutral-200 overflow-hidden flex flex-col p-8 md:p-12 relative">
+                    <div className="absolute top-0 bottom-0 left-[45%] right-[25%] bg-neutral-50 border-x border-neutral-100 flex items-center justify-center">
+                        <div className="text-[10px] font-mono uppercase tracking-widest text-neutral-300 md:-rotate-90">
+                            Capacity Bottleneck
+                        </div>
+                    </div>
+
+                    <svg viewBox="0 0 800 300" className="w-full h-auto min-w-[600px] relative z-10">
+                        <g fill="none">
+                            {/* Fusing Lines */}
+                            <path d="M 180 50 C 300 50, 400 150, 580 150" stroke="currentColor" strokeWidth="1.5" className="text-neutral-200" />
+                            <path d="M 180 100 C 300 100, 400 150, 580 150" stroke="currentColor" strokeWidth="1.5" className="text-neutral-300" />
+                            <path d="M 180 150 L 580 150" stroke="currentColor" strokeWidth="2.5" className="text-neutral-900" />
+                            <path d="M 180 200 C 300 200, 400 150, 580 150" stroke="currentColor" strokeWidth="1.5" className="text-neutral-300" />
+                            <path d="M 180 250 C 300 250, 400 150, 580 150" stroke="currentColor" strokeWidth="1.5" className="text-neutral-200" />
+                        </g>
+
+                        <g fill="white" stroke="currentColor" strokeWidth="1.5">
+                            {/* High Variance Nodes */}
+                            <circle cx="150" cy="50" r="16" className="text-neutral-200" />
+                            <circle cx="150" cy="100" r="16" className="text-neutral-300" />
+                            <circle cx="150" cy="150" r="16" className="text-neutral-900" strokeWidth="2" />
+                            <circle cx="150" cy="200" r="16" className="text-neutral-300" />
+                            <circle cx="150" cy="250" r="16" className="text-neutral-200" />
+
+                            {/* Fused Node */}
+                            <circle cx="600" cy="150" r="24" className="text-neutral-900" strokeWidth="2" />
+                        </g>
+
+                        <g fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="2">
+                            {/* Specific Slashes */}
+                            <line x1="145" y1="58" x2="155" y2="42" className="text-neutral-200" />  {/* Steep slope */}
+                            <line x1="144" y1="106" x2="156" y2="94" className="text-neutral-300" /> {/* Slight steep */}
+                            <line x1="143" y1="157" x2="157" y2="143" className="text-neutral-900" /> {/* Perfect 45 */}
+                            <line x1="142" y1="204" x2="158" y2="196" className="text-neutral-300" /> {/* Gentle slope */}
+                            <line x1="141" y1="252" x2="159" y2="248" className="text-neutral-200" /> {/* Flat slope */}
+
+                            {/* Fused / Abstracted Slash */}
+                            <line x1="591" y1="159" x2="609" y2="141" className="text-neutral-900" strokeWidth="3.5" filter="blur(1px)" opacity="0.8" />
+                        </g>
+
+                        {/* Annotations */}
+                        <text x="150" y="295" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">High Specificity (Variance)</text>
+                        <text x="600" y="295" fill="#111111" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Fused Concept Bucket</text>
+                        <text x="600" y="200" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">"Any Slanted Line"</text>
+                    </svg>
+                </div>
+            </FadeIn>
+        </section>
     );
 }
 
@@ -455,6 +525,9 @@ export function ConceptFlow() {
                     <ActivationDemo />
                 </FadeIn>
             </section>
+
+            {/* Abstraction Fusing Component */}
+            <AbstractionFusing />
 
             {/* 4. The Layers */}
             <section className="py-24">
