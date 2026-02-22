@@ -104,98 +104,248 @@ function ActivationDemo() {
 }
 
 function LayersDiagram() {
+    const [selectedDigit, setSelectedDigit] = React.useState<number>(3);
+
     const getNodes = (count: number, center: number, spacing: number) =>
         Array.from({ length: count }, (_, i) => center + (i - (count - 1) / 2) * spacing);
 
-    const nodesLevel1 = getNodes(10, 130, 22);
-    const nodesLevel2 = getNodes(8, 130, 22);
-    const nodesLevel3 = getNodes(10, 130, 22);
-    const nodesLevel4 = getNodes(6, 130, 22);
+    const nodesLevel1 = getNodes(9, 180, 36);
+    const nodesLevel2 = getNodes(8, 180, 40);
+    const nodesLevel3 = getNodes(8, 180, 40);
+    const nodesLevel4 = getNodes(10, 180, 36);
 
-    const connectedL1 = nodesLevel1.slice(2, 7); // middle 5
-    const connectedL2 = nodesLevel2.slice(2, 5); // middle 3
-    const connectedL3 = nodesLevel3.slice(3, 7); // middle 4
-    const connectedL4 = nodesLevel4.slice(2, 3); // middle 1
+    const featuresL1 = [
+        <circle key="0" cx="0" cy="0" r="2.5" fill="currentColor" />,
+        <circle key="1" cx="-3" cy="3" r="2" fill="currentColor" />,
+        <circle key="2" cx="3" cy="-3" r="3" fill="currentColor" />,
+        <circle key="3" cx="0" cy="0" r="4.5" fill="currentColor" opacity="0.4" filter="blur(1.5px)" />,
+        <circle key="4" cx="2" cy="2" r="2.5" fill="currentColor" />,
+        <circle key="5" cx="-2" cy="-2" r="2" fill="currentColor" />,
+        <circle key="6" cx="0" cy="0" r="5" fill="currentColor" opacity="0.3" filter="blur(2px)" />,
+        <circle key="7" cx="4" cy="1" r="2" fill="currentColor" />,
+        <circle key="8" cx="-1" cy="-4" r="2.5" fill="currentColor" />,
+    ];
+
+    const featuresL2 = [
+        <line key="0" x1="-5" y1="-5" x2="5" y2="5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />,
+        <line key="1" x1="-6" y1="0" x2="6" y2="0" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />,
+        <line key="2" x1="0" y1="-6" x2="0" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />,
+        <line key="3" x1="-5" y1="5" x2="5" y2="-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />,
+        <path key="4" d="M -5 -3 Q 0 -6 5 -3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" opacity="0.5" filter="blur(1px)" />,
+        <path key="5" d="M -5 3 Q 0 6 5 3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />,
+        <line key="6" x1="-4" y1="-6" x2="4" y2="6" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.4" filter="blur(2px)" />,
+        <path key="7" d="M -3 -5 Q 3 0 -3 5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />,
+    ];
+
+    const featuresL3 = [
+        <path key="0" d="M -6 -4 C 0 -10, 6 -10, 6 -4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />,
+        <path key="1" d="M -6 4 C 0 10, 6 10, 6 4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />,
+        <path key="2" d="M 2 -6 C 8 -2, 8 2, 2 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />,
+        <path key="3" d="M -2 -6 C -8 -2, -8 2, -2 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />,
+        <path key="4" d="M 0 -8 L 0 8" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />,
+        <path key="5" d="M -6 0 L 6 0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />,
+        <path key="6" d="M -6 6 L 6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />,
+        <line key="7" x1="-5" y1="5" x2="5" y2="-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />,
+    ];
+
+    const digitWeights: Record<number, number[]> = {
+        0: [2, 2, 2, 2, 1, 0, 0, 0],
+        1: [-1, -1, 0, 0, 3, 0, 1, 0],
+        2: [2, -1, 1, -1, 0, 2, 2, 1],
+        3: [2, 2, 3, -1, -1, 2, 0, 0],
+        4: [0, 0, 1, 1, 2, 2, 0, 0],
+        5: [1, 2, 1, -1, 1, 2, 0, 0],
+        6: [1, 2, 2, 2, 1, 1, 0, 0],
+        7: [1, 0, 0, 0, 0, 0, -1, 3],
+        8: [2, 2, 2, 2, 1, 1, 1, 0],
+        9: [2, 1, 2, 1, 1, 1, 0, 1],
+    };
+
+    const l2_l3_weights = [
+        [1, 0, 0, 1, 3, 0, 0, 0],
+        [0, 1, 0, 0, 0, 3, 0, 0],
+        [1, 0, 0, 1, 0, 0, 0, 3],
+        [1, 0, 0, 1, 0, 0, 0, -1],
+        [0, 0, 3, 0, 0, 0, 1, 0],
+        [0, 3, 0, 0, 0, 0, 0, 0],
+        [0, 3, 0, 0, 0, 0, 0, 0],
+    ];
+
+    const l1_l2_weights = [
+        [2, 0, 0, 1, 0, 0, 0, 2, 0],
+        [0, 2, 0, 0, 2, 0, 0, 0, 1],
+        [0, 0, 2, 0, 0, 2, 1, 0, 0],
+        [0, 0, 0, 2, 0, 0, 0, 1, 2],
+        [1, 0, 1, 2, 0, 0, 2, 0, 0],
+        [0, 1, 0, 0, 1, 0, 0, 2, 1],
+        [0, 0, 1, 2, 0, 1, 2, 0, 0],
+        [1, 0, 0, 0, 1, 0, 0, 1, 2],
+    ];
+
+    const activeL3 = digitWeights[selectedDigit];
+    const activeL2 = Array(8).fill(0);
+    for (let j = 0; j < 8; j++) {
+        for (let k = 0; k < 8; k++) {
+            activeL2[j] += l2_l3_weights[k][j] * Math.max(0, activeL3[k]);
+        }
+    }
+    const maxL2 = Math.max(...activeL2, 1);
+    for (let j = 0; j < 8; j++) activeL2[j] = (activeL2[j] / maxL2) * 3;
+
+    const activeL1 = Array(9).fill(0);
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 8; j++) {
+            activeL1[i] += l1_l2_weights[j][i] * Math.max(0, activeL2[j]);
+        }
+    }
+    const maxL1 = Math.max(...activeL1, 1);
+    for (let i = 0; i < 9; i++) activeL1[i] = (activeL1[i] / maxL1) * 3;
+
+    const getStrokeProps = (importance: number, baseWeight: number = 1) => {
+        if (baseWeight < 0 && importance <= 0) {
+            return { strokeWidth: 1, strokeOpacity: 0.2, strokeDasharray: "4 4", className: "text-neutral-300" };
+        }
+        if (importance > 1.5) {
+            return { strokeWidth: Math.min(3, importance), strokeOpacity: 0.7, strokeDasharray: "none", className: "text-neutral-900" };
+        }
+        if (importance > 0.2) {
+            return { strokeWidth: 1.5, strokeOpacity: 0.25, strokeDasharray: "none", className: "text-neutral-500" };
+        }
+        return { strokeWidth: 1, strokeOpacity: 0.05, strokeDasharray: "none", className: "text-neutral-200" };
+    };
+
+    const renderNode = (x: number, y: number, isActive: boolean, content: React.ReactNode, isInteractive = false, onClick?: () => void) => {
+        return (
+            <g
+                transform={`translate(${x}, ${y})`}
+                className={`transition-colors duration-300 ${isInteractive ? "cursor-pointer " : ""}${isActive ? "text-neutral-900" : "text-neutral-300"}`}
+                onClick={onClick}
+            >
+                <circle cx="0" cy="0" r="16" fill="white" stroke="currentColor" strokeWidth={isActive ? "2" : "1.5"} className="transition-all duration-300" />
+                {content}
+            </g>
+        );
+    };
 
     return (
-        <div className="w-full overflow-hidden mt-12 bg-white rounded-2xl p-8 border border-neutral-200">
-            <svg viewBox="0 0 800 280" className="w-full h-auto">
-                <g stroke="currentColor" strokeWidth="1" strokeOpacity="0.15" fill="none" className="text-neutral-900">
-                    {connectedL1.map(y1 => connectedL2.map(y2 => <line key={`1-2-${y1}-${y2}`} x1="110" y1={y1} x2="290" y2={y2} />))}
-                    {connectedL2.map(y1 => connectedL3.map(y2 => <line key={`2-3-${y1}-${y2}`} x1="312" y1={y1} x2="488" y2={y2} />))}
-                    {connectedL3.map(y1 => connectedL4.map(y2 => <line key={`3-4-${y1}-${y2}`} x1="514" y1={y1} x2="686" y2={y2} />))}
-                </g>
+        <div className="w-full mt-12 bg-white rounded-2xl border border-neutral-200 overflow-hidden flex flex-col">
+            <div className="p-8 pb-4 overflow-x-auto">
+                <svg viewBox="0 0 800 390" className="w-full h-auto min-w-[700px]">
+                    {/* All lines */}
+                    <g fill="none">
+                        {/* L1 -> L2 */}
+                        {nodesLevel1.map((y1, i1) => {
+                            return nodesLevel2.map((y2, i2) => {
+                                const baseWeight = l1_l2_weights[i2][i1];
+                                if (baseWeight === 0) return null;
+                                const importance = baseWeight * Math.max(0, activeL2[i2]) / 2;
+                                const props = getStrokeProps(importance, baseWeight);
+                                return <line key={`1-2-${i1}-${i2}`} x1="116" y1={y1} x2="284" y2={y2} stroke="currentColor" {...props} className={`transition-all duration-300 ${props.className}`} />;
+                            });
+                        })}
 
-                <g fill="currentColor">
-                    {/* Level 1: Pixels / Raw */}
-                    {nodesLevel1.map((y, i) => <circle key={`1-${i}`} cx="100" cy={y} r="4" className={connectedL1.includes(y) ? "text-neutral-400 pointer-events-none" : "text-neutral-200 pointer-events-none"} />)}
+                        {/* L2 -> L3 */}
+                        {nodesLevel2.map((y2, i2) => {
+                            return nodesLevel3.map((y3, i3) => {
+                                const baseWeight = l2_l3_weights[i3][i2];
+                                if (baseWeight === 0) return null;
+                                const importance = baseWeight * Math.max(0, activeL3[i3]) / 2;
+                                const props = getStrokeProps(importance, baseWeight);
+                                return <line key={`2-3-${i2}-${i3}`} x1="316" y1={y2} x2="484" y2={y3} stroke="currentColor" {...props} className={`transition-all duration-300 ${props.className}`} />;
+                            });
+                        })}
 
-                    {/* Level 2: Edges */}
-                    {nodesLevel2.map((y, i) => <circle key={`2-${i}`} cx="300" cy={y} r="5" className={connectedL2.includes(y) ? "text-neutral-500 pointer-events-none" : "text-neutral-200 pointer-events-none"} />)}
+                        {/* L3 -> L4 */}
+                        {nodesLevel4.map((y4, digit) => {
+                            if (selectedDigit !== digit) return null;
+                            return nodesLevel3.map((y3, featIdx) => {
+                                const weight = digitWeights[digit][featIdx];
+                                if (weight === 0) return null;
+                                const importance = Math.max(0, weight);
+                                const props = getStrokeProps(importance, weight);
+                                return <line key={`3-4-${featIdx}-${digit}`} x1="516" y1={y3} x2="684" y2={y4} stroke="currentColor" {...props} className={`transition-all duration-300 ${props.className}`} />;
+                            });
+                        })}
+                    </g>
 
-                    {/* Level 3: Textures / Parts */}
-                    {nodesLevel3.map((y, i) => <circle key={`3-${i}`} cx="500" cy={y} r="6" className={connectedL3.includes(y) ? "text-neutral-600 pointer-events-none" : "text-neutral-200 pointer-events-none"} />)}
+                    {/* Nodes Level 1 */}
+                    {nodesLevel1.map((y, i) => <React.Fragment key={`1-${i}`}>{renderNode(100, y, activeL1[i] > 1, featuresL1[i])}</React.Fragment>)}
+                    {/* Nodes Level 2 */}
+                    {nodesLevel2.map((y, i) => <React.Fragment key={`2-${i}`}>{renderNode(300, y, activeL2[i] > 1, featuresL2[i])}</React.Fragment>)}
+                    {/* Nodes Level 3 */}
+                    {nodesLevel3.map((y, i) => <React.Fragment key={`3-${i}`}>{renderNode(500, y, Math.max(0, activeL3[i]) > 0, featuresL3[i])}</React.Fragment>)}
 
-                    {/* Level 4: Objects / Concepts */}
-                    {nodesLevel4.map((y, i) => <motion.circle
-                        key={`4-${i}`}
-                        cx="700"
-                        cy={y}
-                        r={connectedL4.includes(y) ? 8 : 6}
-                        className={connectedL4.includes(y) ? "text-neutral-900 cursor-pointer" : "text-neutral-200 cursor-pointer"}
-                        whileHover={{ scale: connectedL4.includes(y) ? 1.15 : 1 }}
-                    />)}
-                </g>
+                    {/* Level 4: Output Digits 0-9 */}
+                    {nodesLevel4.map((y, i) => {
+                        const isSelected = selectedDigit === i;
+                        const content = (
+                            <text x="0" y="4" textAnchor="middle" fontSize="13" fontWeight={isSelected ? "600" : "500"} fill="currentColor" className="font-mono">{i}</text>
+                        );
+                        return <React.Fragment key={`4-${i}`}>{renderNode(700, y, isSelected, content, true, () => setSelectedDigit(i))}</React.Fragment>;
+                    })}
 
-                {/* Labels */}
-                <text x="100" y="270" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Depth 1</text>
-                <text x="300" y="270" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Depth 2</text>
-                <text x="500" y="270" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Depth 3</text>
-                <text x="700" y="270" fill="#111111" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">High-Level Concepts</text>
-            </svg>
-        </div>
-    );
-}
+                    {/* Labels */}
+                    <text x="100" y="375" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Raw Input</text>
+                    <text x="300" y="375" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Edges</text>
+                    <text x="500" y="375" fill="#a3a3a3" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Features</text>
+                    <text x="700" y="375" fill="#111111" textAnchor="middle" className="font-mono text-[10px] uppercase font-medium tracking-widest">Concepts (0-9)</text>
+                </svg>
+            </div>
 
-function AttentionDiagram() {
-    return (
-        <div className="w-full mt-12 bg-white rounded-2xl p-8 border border-neutral-200">
-            <svg viewBox="0 0 800 200" className="w-full h-auto text-neutral-300">
-                <defs>
-                    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                        <polygon points="0 0, 8 3, 0 6" fill="#111111" />
-                    </marker>
-                    <marker id="arrowhead-gray" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                        <polygon points="0 0, 8 3, 0 6" fill="#a3a3a3" />
-                    </marker>
-                </defs>
+            {/* Examples building up to the letter 3 */}
+            <div className="grid grid-cols-4 border-t border-neutral-200 bg-neutral-50/50">
+                <div className="p-6 text-center border-r border-neutral-200">
+                    <div className="mb-4 flex items-center justify-center gap-2 h-12">
+                        <svg viewBox="0 0 24 24" width="20" height="20" className="text-neutral-900" stroke="currentColor" fill="none" strokeWidth="2">
+                            <path d="M4 12 L12 4" />
+                        </svg>
+                        <svg viewBox="0 0 24 24" width="20" height="20" className="text-neutral-900" stroke="currentColor" fill="none" strokeWidth="2">
+                            <path d="M12 4 C 18 4 20 10 20 12" />
+                        </svg>
+                        <svg viewBox="0 0 24 24" width="20" height="20" className="text-neutral-900" stroke="currentColor" fill="none" strokeWidth="2">
+                            <path d="M4 12 C 10 12 12 18 12 20" />
+                        </svg>
+                    </div>
+                    <p className="font-mono text-[10px] uppercase font-medium tracking-widest text-neutral-400 mb-1">Depth 1</p>
+                    <p className="text-sm font-medium text-neutral-700">Pixels & Dots</p>
+                </div>
 
-                {/* Connections */}
-                <g strokeWidth="1.5" fill="none">
-                    {/* Main attention arc */}
-                    <path d="M 600 110 Q 375 0 160 110" markerEnd="url(#arrowhead)" stroke="#111111" strokeDasharray="3 3" />
+                <div className="p-6 text-center border-r border-neutral-200">
+                    <div className="mb-4 flex items-center justify-center gap-3 h-12">
+                        <svg viewBox="0 0 32 32" width="24" height="24" className="text-neutral-900" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round">
+                            <path d="M6 10 C 12 6 20 6 26 10" />
+                        </svg>
+                        <svg viewBox="0 0 32 32" width="24" height="24" className="text-neutral-900" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round">
+                            <path d="M26 10 C 30 16 30 24 26 30" />
+                        </svg>
+                    </div>
+                    <p className="font-mono text-[10px] uppercase font-medium tracking-widest text-neutral-400 mb-1">Depth 2</p>
+                    <p className="text-sm font-medium text-neutral-700">Lines & Short Curves</p>
+                </div>
 
-                    {/* Fainter attention arcs */}
-                    <path d="M 600 110 Q 525 60 460 110" markerEnd="url(#arrowhead)" stroke="#111111" strokeOpacity="0.2" />
-                    <path d="M 450 110 Q 375 70 310 110" markerEnd="url(#arrowhead-gray)" stroke="#a3a3a3" strokeOpacity="0.3" />
-                </g>
+                <div className="p-6 text-center border-r border-neutral-200">
+                    <div className="mb-4 flex items-center justify-center gap-4 h-12">
+                        <svg viewBox="0 0 32 32" width="28" height="28" className="text-neutral-900" stroke="currentColor" fill="none" strokeWidth="2.5" strokeLinecap="round">
+                            <path d="M10 8 C 16 4 26 4 26 12 C 26 18 18 20 14 20" />
+                        </svg>
+                        <svg viewBox="0 0 32 32" width="28" height="28" className="text-neutral-900" stroke="currentColor" fill="none" strokeWidth="2.5" strokeLinecap="round">
+                            <path d="M14 12 C 22 12 28 14 28 22 C 28 30 16 30 10 26" />
+                        </svg>
+                    </div>
+                    <p className="font-mono text-[10px] uppercase font-medium tracking-widest text-neutral-400 mb-1">Depth 3</p>
+                    <p className="text-sm font-medium text-neutral-700">Complex Loops</p>
+                </div>
 
-                {/* Nodes representing concepts at the same depth level */}
-                <g fill="currentColor">
-                    <circle cx="150" cy="120" r="8" className="text-neutral-900" />
-                    <circle cx="300" cy="120" r="6" className="text-neutral-300" />
-                    <circle cx="450" cy="120" r="6" className="text-neutral-300" />
-                    <circle cx="600" cy="120" r="8" className="text-neutral-900" />
-                    <circle cx="750" cy="120" r="4" className="text-neutral-200" />
-                </g>
-
-                {/* Text labels */}
-                <text x="150" y="155" fill="#111111" textAnchor="middle" className="font-mono text-xs font-medium tabular-nums">The dog</text>
-                <text x="300" y="155" fill="#a3a3a3" textAnchor="middle" className="font-mono text-xs font-medium tabular-nums">chased</text>
-                <text x="450" y="155" fill="#a3a3a3" textAnchor="middle" className="font-mono text-xs font-medium tabular-nums">the ball</text>
-                <text x="600" y="155" fill="#111111" textAnchor="middle" className="font-mono text-xs font-medium tabular-nums">because he</text>
-                <text x="750" y="155" fill="#d4d4d4" textAnchor="middle" className="font-mono text-xs font-medium tabular-nums">...</text>
-            </svg>
+                <div className="p-6 text-center bg-white">
+                    <div className="mb-4 flex items-center justify-center h-12">
+                        <svg viewBox="0 0 32 32" width="40" height="40" className="text-neutral-900" stroke="currentColor" fill="none" strokeWidth="2.5" strokeLinecap="round">
+                            <path d="M10 6 C 18 2 26 4 24 12 C 22 16 16 16 14 16 C 22 16 26 20 24 26 C 22 30 14 30 10 26" />
+                        </svg>
+                    </div>
+                    <p className="font-mono text-[10px] uppercase font-medium tracking-widest text-neutral-400 mb-1">High-Level</p>
+                    <p className="text-sm font-semibold text-neutral-900">The Number "3"</p>
+                </div>
+            </div>
         </div>
     );
 }
@@ -312,28 +462,12 @@ export function ConceptFlow() {
                         The layers
                     </h2>
                     <p className="text-lg leading-relaxed text-neutral-500">
-                        As we go deeper down the layers, neural networks actually condition representation to be <strong className="text-neutral-900 font-medium">concepts at different depth levels</strong>. Low layers are edges; deep layers are complex, complete thoughts.
+                        As we go deeper down the layers, neural networks actually condition representation to be <strong className="text-neutral-900 font-medium">concepts at different depth levels</strong>. For example, raw pixels combine into edges, building up to complex loops, and eventually recognizing the abstract number "3".
                     </p>
                 </FadeIn>
 
                 <FadeIn delay={0.06}>
                     <LayersDiagram />
-                </FadeIn>
-            </section>
-
-            {/* 5. Attention */}
-            <section className="py-24">
-                <FadeIn className="text-center mb-12 max-w-3xl mx-auto">
-                    <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-neutral-900 mb-6">
-                        Attention
-                    </h2>
-                    <p className="text-lg leading-relaxed text-neutral-500">
-                        Attention is actually the part that inhabits the ability to make neural nets have intra-layer communication. <br className="hidden md:block" /><span className="text-neutral-900 font-medium">Concepts of the same level can finally apply and talk to each other.</span>
-                    </p>
-                </FadeIn>
-
-                <FadeIn delay={0.06}>
-                    <AttentionDiagram />
                 </FadeIn>
             </section>
 
