@@ -356,10 +356,10 @@ function CapacityBottleneck() {
         <section className="py-24 border-t border-neutral-100">
             <FadeIn className="mb-6 text-center max-w-3xl mx-auto">
                 <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-neutral-900 mb-6">
-                    But wait, how does it know when to fire?
+                    Why abstraction, not memorization?
                 </h2>
                 <p className="text-lg text-neutral-500 leading-relaxed">
-                    Imagine the network tried to memorize every exact variant of every feature. A neuron just for lines at 41°, another for 42°, another for 43°... it would take more storage than exists on Earth, and it still wouldn&apos;t generalize to anything it hadn&apos;t seen before.
+                    So a neuron waves a flag when its concept is present. But why does it learn a <em className="text-neutral-700 not-italic">fuzzy</em> concept like &ldquo;any slanted line&rdquo; instead of memorizing every exact variant? Imagine a neuron just for lines at 41°, another for 42°, another for 43°&hellip; it would take more storage than exists on Earth, and it still wouldn&apos;t generalize to anything it hadn&apos;t seen before.
                 </p>
             </FadeIn>
 
@@ -431,16 +431,16 @@ function ConceptOverlap() {
     const [hoveredConcept, setHoveredConcept] = React.useState<number | null>(1);
 
     const features = [
-        { id: 0, icon: <line x1="-5" y1="-5" x2="5" y2="5" strokeWidth="2" strokeLinecap="round" /> },
-        { id: 1, icon: <circle cx="0" cy="0" r="4" fill="currentColor" /> },
-        { id: 2, icon: <line x1="-6" y1="0" x2="6" y2="0" strokeWidth="2" strokeLinecap="round" /> },
-        { id: 3, icon: <path d="M -5 4 Q 0 -6 5 4" fill="none" strokeWidth="2" strokeLinecap="round" /> },
-        { id: 4, icon: <polygon points="0,-5 5,4 -5,4" fill="currentColor" /> },
+        { id: 0, label: "Pointy Ears", icon: <polygon points="0,-6 4,4 -4,4" fill="none" strokeWidth="2" strokeLinejoin="round" /> },
+        { id: 1, label: "Fur Texture", icon: <><line x1="-4" y1="-4" x2="-1" y2="4" strokeWidth="1.5" strokeLinecap="round" /><line x1="0" y1="-5" x2="2" y2="4" strokeWidth="1.5" strokeLinecap="round" /><line x1="4" y1="-3" x2="5" y2="5" strokeWidth="1.5" strokeLinecap="round" /></> },
+        { id: 2, label: "Wet Nose", icon: <circle cx="0" cy="0" r="4" fill="currentColor" /> },
+        { id: 3, label: "Whiskers", icon: <><line x1="-6" y1="-2" x2="6" y2="-2" strokeWidth="1.5" strokeLinecap="round" /><line x1="-6" y1="2" x2="6" y2="2" strokeWidth="1.5" strokeLinecap="round" /></> },
+        { id: 4, label: "Floppy Ears", icon: <path d="M -5 -4 Q 0 -8 5 -4 Q 6 2 4 6" fill="none" strokeWidth="2" strokeLinecap="round" /> },
     ];
 
     const concepts = [
-        { id: 1, y: 140, label: "Concept Alpha", connections: [0, 1, 2, 3] },
-        { id: 2, y: 260, label: "Concept Beta", connections: [1, 2, 3, 4] },
+        { id: 1, y: 140, label: "Cat", connections: [0, 1, 2, 3] },
+        { id: 2, y: 260, label: "Dog", connections: [1, 2, 3, 4] },
     ];
 
     return (
@@ -450,13 +450,13 @@ function ConceptOverlap() {
                     One neuron rarely works alone
                 </h2>
                 <p className="text-lg text-neutral-500 leading-relaxed">
-                    Now here&apos;s where it gets interesting. No neuron in isolation &ldquo;knows&rdquo; what a cat is. Instead, the network represents &ldquo;cat&rdquo; as a <em className="text-neutral-700 not-italic">pattern of many neurons firing together</em>, whisker-texture firing, pointy-ear firing, slit-pupil firing, fur-sheen firing.
+                    So far we&apos;ve talked about single neurons. But no neuron in isolation &ldquo;knows&rdquo; what a cat is. Instead, the network represents &ldquo;cat&rdquo; as a <em className="text-neutral-700 not-italic">pattern of many neurons firing together</em> — pointy-ears firing, fur-texture firing, wet-nose firing, whiskers firing.
                 </p>
             </FadeIn>
 
             <FadeIn delay={0.04} className="mb-16 text-center max-w-2xl mx-auto">
                 <p className="text-base text-neutral-400 leading-relaxed">
-                    This is called a <strong className="text-neutral-700">distributed representation</strong>, and it has a beautiful side effect: similar concepts share enormous overlap in their firing sets. A cartoon cat and a real cat might share 80% of the same neurons. That shared foundation is <em className="text-neutral-600 not-italic">why the network can generalize</em>, it doesn&apos;t need to memorize every possible cat, just the overlapping pattern. Hover below to see how two concepts share a core.
+                    This is called a <strong className="text-neutral-700">distributed representation</strong>, and it has a beautiful side effect: similar concepts share enormous overlap in their firing sets. A cat and a dog both have fur, wet noses, and whiskers — so they share many of the same neurons. That shared foundation is <em className="text-neutral-600 not-italic">why the network can generalize</em>. Hover below to see how two concepts share a core.
                 </p>
             </FadeIn>
 
@@ -499,17 +499,14 @@ function ConceptOverlap() {
                             const featY = 100 + i * 50;
                             const isActive = concepts.some(c => c.id === hoveredConcept && c.connections.includes(feat.id));
                             const isShared = concepts.every(c => c.connections.includes(feat.id));
-                            const label = isShared ? "Shared Pattern" : "";
 
                             return (
                                 <g key={`feat-${i}`} transform={`translate(200, ${featY})`} className={`transition-colors duration-300 ${isActive ? "text-neutral-900" : "text-neutral-300"}`}>
                                     <circle cx="0" cy="0" r="16" fill="white" stroke="currentColor" strokeWidth={isActive ? 2 : 1.5} className="transition-all duration-300" />
                                     {feat.icon}
-                                    {label && (
-                                        <text x="-32" y="3" fill="#a3a3a3" textAnchor="end" className={`font-mono text-[9px] uppercase font-medium tracking-widest transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-0"}`}>
-                                            {label}
-                                        </text>
-                                    )}
+                                    <text x="-32" y="3" fill={isShared && isActive ? "#111111" : "#a3a3a3"} textAnchor="end" className={`font-sans text-[11px] font-medium transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-0"}`}>
+                                        {feat.label}{isShared ? " ●" : ""}
+                                    </text>
                                 </g>
                             );
                         })}
@@ -627,8 +624,39 @@ export function ConceptFlow() {
                 <div className="grid md:grid-cols-2 gap-4 items-stretch">
                     <FadeIn>
                         <div className="bg-white rounded-2xl p-10 lg:p-12 border border-neutral-200 h-full hover:shadow-lg hover:shadow-neutral-200/50 transition-shadow duration-200">
-                            <div className="w-12 h-12 bg-neutral-50 border border-neutral-100 rounded-xl flex items-center justify-center mb-8">
-                                <div className="w-3 h-3 bg-neutral-900 rounded-[2px]"></div>
+                            <div className="w-full mb-8 rounded-xl border border-neutral-100 bg-neutral-50/50 p-6 overflow-hidden">
+                                <svg viewBox="0 0 280 160" className="w-full h-auto" fill="none">
+                                    {/* Arrows */}
+                                    <defs>
+                                        <marker id="arrow-t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#44403c" />
+                                        </marker>
+                                    </defs>
+                                    {/* Connections */}
+                                    <line x1="60" y1="55" x2="115" y2="25" stroke="#44403c" strokeWidth="2" markerEnd="url(#arrow-t)" />
+                                    <line x1="140" y1="55" x2="140" y2="33" stroke="#44403c" strokeWidth="2" markerEnd="url(#arrow-t)" />
+                                    <line x1="220" y1="55" x2="165" y2="25" stroke="#44403c" strokeWidth="2" markerEnd="url(#arrow-t)" />
+                                    <line x1="60" y1="110" x2="60" y2="78" stroke="#44403c" strokeWidth="2" markerEnd="url(#arrow-t)" />
+                                    <line x1="140" y1="110" x2="140" y2="78" stroke="#44403c" strokeWidth="2" markerEnd="url(#arrow-t)" />
+                                    <line x1="220" y1="110" x2="220" y2="78" stroke="#44403c" strokeWidth="2" markerEnd="url(#arrow-t)" />
+                                    {/* Top node */}
+                                    <rect x="100" y="4" width="80" height="28" rx="4" fill="#e7e5e4" stroke="#44403c" strokeWidth="1.5" />
+                                    <text x="140" y="23" textAnchor="middle" className="text-[11px] font-medium" fill="#1c1917" fontFamily="system-ui">Golden R.</text>
+                                    {/* Middle row */}
+                                    <rect x="20" y="55" width="80" height="24" rx="4" fill="#e7e5e4" stroke="#44403c" strokeWidth="1.5" />
+                                    <text x="60" y="71" textAnchor="middle" className="text-[10px] font-medium" fill="#1c1917" fontFamily="system-ui">floppy ear</text>
+                                    <rect x="105" y="55" width="70" height="24" rx="4" fill="#e7e5e4" stroke="#44403c" strokeWidth="1.5" />
+                                    <text x="140" y="71" textAnchor="middle" className="text-[10px] font-medium" fill="#1c1917" fontFamily="system-ui">snout</text>
+                                    <rect x="185" y="55" width="70" height="24" rx="4" fill="#e7e5e4" stroke="#44403c" strokeWidth="1.5" />
+                                    <text x="220" y="71" textAnchor="middle" className="text-[10px] font-medium" fill="#1c1917" fontFamily="system-ui">fur</text>
+                                    {/* Bottom row */}
+                                    <rect x="20" y="110" width="80" height="24" rx="4" fill="#e7e5e4" stroke="#44403c" strokeWidth="1.5" />
+                                    <text x="60" y="126" textAnchor="middle" className="text-[10px] font-medium" fill="#1c1917" fontFamily="system-ui">curve</text>
+                                    <rect x="105" y="110" width="70" height="24" rx="4" fill="#e7e5e4" stroke="#44403c" strokeWidth="1.5" />
+                                    <text x="140" y="126" textAnchor="middle" className="text-[10px] font-medium" fill="#1c1917" fontFamily="system-ui">edge</text>
+                                    <rect x="185" y="110" width="70" height="24" rx="4" fill="#e7e5e4" stroke="#44403c" strokeWidth="1.5" />
+                                    <text x="220" y="126" textAnchor="middle" className="text-[10px] font-medium" fill="#1c1917" fontFamily="system-ui">texture</text>
+                                </svg>
                             </div>
                             <h3 className="text-lg font-semibold mb-3 text-neutral-900 tracking-tight">Tangible</h3>
                             <p className="text-sm leading-relaxed text-neutral-500">
@@ -638,8 +666,39 @@ export function ConceptFlow() {
                     </FadeIn>
                     <FadeIn delay={0.06}>
                         <div className="bg-white rounded-2xl p-10 lg:p-12 border border-neutral-200 h-full hover:shadow-lg hover:shadow-neutral-200/50 transition-shadow duration-200">
-                            <div className="w-12 h-12 bg-neutral-50 border border-neutral-100 rounded-xl flex items-center justify-center mb-8">
-                                <div className="w-4 h-4 bg-neutral-400 rounded-full opacity-60 blur-[2px]"></div>
+                            <div className="w-full mb-8 rounded-xl border border-neutral-100 bg-neutral-50/50 p-6 overflow-hidden">
+                                <svg viewBox="0 0 280 160" className="w-full h-auto" fill="none">
+                                    <defs>
+                                        <marker id="arrow-nt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#44403c" />
+                                        </marker>
+                                    </defs>
+                                    {/* Connections - diffuse, overlapping, no clean hierarchy */}
+                                    <line x1="60" y1="110" x2="100" y2="78" stroke="#44403c" strokeWidth="1.5" markerEnd="url(#arrow-nt)" opacity="0.5" />
+                                    <line x1="60" y1="110" x2="180" y2="78" stroke="#44403c" strokeWidth="1.5" markerEnd="url(#arrow-nt)" opacity="0.3" />
+                                    <line x1="140" y1="110" x2="100" y2="78" stroke="#44403c" strokeWidth="1.5" markerEnd="url(#arrow-nt)" opacity="0.4" />
+                                    <line x1="140" y1="110" x2="180" y2="78" stroke="#44403c" strokeWidth="1.5" markerEnd="url(#arrow-nt)" opacity="0.5" />
+                                    <line x1="220" y1="110" x2="180" y2="78" stroke="#44403c" strokeWidth="1.5" markerEnd="url(#arrow-nt)" opacity="0.4" />
+                                    <line x1="220" y1="110" x2="100" y2="78" stroke="#44403c" strokeWidth="1.5" markerEnd="url(#arrow-nt)" opacity="0.2" />
+                                    <line x1="100" y1="55" x2="140" y2="25" stroke="#44403c" strokeWidth="1.5" markerEnd="url(#arrow-nt)" opacity="0.4" />
+                                    <line x1="180" y1="55" x2="140" y2="25" stroke="#44403c" strokeWidth="1.5" markerEnd="url(#arrow-nt)" opacity="0.4" />
+                                    {/* Top node - unnamed, just ??? */}
+                                    <rect x="110" y="4" width="60" height="28" rx="4" fill="#e7e5e4" stroke="#44403c" strokeWidth="1.5" strokeDasharray="4 3" />
+                                    <text x="140" y="23" textAnchor="middle" className="text-[11px]" fill="#a8a29e" fontFamily="system-ui" fontStyle="italic">???</text>
+                                    {/* Middle row - unnamed nodes */}
+                                    <rect x="65" y="55" width="70" height="24" rx="4" fill="#e7e5e4" stroke="#44403c" strokeWidth="1.5" strokeDasharray="4 3" />
+                                    <text x="100" y="71" textAnchor="middle" className="text-[10px]" fill="#a8a29e" fontFamily="system-ui" fontStyle="italic">~pattern</text>
+                                    <rect x="145" y="55" width="70" height="24" rx="4" fill="#e7e5e4" stroke="#44403c" strokeWidth="1.5" strokeDasharray="4 3" />
+                                    <text x="180" y="71" textAnchor="middle" className="text-[10px]" fill="#a8a29e" fontFamily="system-ui" fontStyle="italic">~signal</text>
+                                    {/* Bottom row - vague activations */}
+                                    <rect x="20" y="110" width="80" height="24" rx="4" fill="#e7e5e4" stroke="#44403c" strokeWidth="1" opacity="0.6" />
+                                    <rect x="110" y="110" width="60" height="24" rx="4" fill="#e7e5e4" stroke="#44403c" strokeWidth="1" opacity="0.6" />
+                                    <rect x="180" y="110" width="80" height="24" rx="4" fill="#e7e5e4" stroke="#44403c" strokeWidth="1" opacity="0.6" />
+                                    {/* Subtle dots instead of labels - these features have no name */}
+                                    <circle cx="60" cy="122" r="2" fill="#a8a29e" />
+                                    <circle cx="140" cy="122" r="2" fill="#a8a29e" />
+                                    <circle cx="220" cy="122" r="2" fill="#a8a29e" />
+                                </svg>
                             </div>
                             <h3 className="text-lg font-semibold mb-3 text-neutral-900 tracking-tight">Non-Tangible</h3>
                             <p className="text-sm leading-relaxed text-neutral-500">
@@ -689,7 +748,7 @@ export function ConceptFlow() {
                         Concepts built on top of concepts
                     </h2>
                     <p className="text-lg leading-relaxed text-neutral-500">
-                        If a single neuron is a concept-detector, then the whole network is a <em className="text-neutral-700 not-italic">concept-stacker</em>. The early layers detect raw, simple things, a dot, a diagonal line, a gradient. Those get wired together so middle layers can detect richer things, a curve, a loop, an angle. Those in turn feed the final layers, which recognize the most abstract ideas of all: a specific digit, a face, a word.
+                        If a single neuron is a concept-detector, then the whole network is a <em className="text-neutral-700 not-italic">concept-stacker</em>. Early layers detect raw, simple things — a dot, a diagonal line, a gradient. Those wire together so middle layers can detect richer things — a curve, a loop, an angle. And those in turn feed the final layers, which recognize the most abstract ideas: a specific digit, a face, a word.
                     </p>
                 </FadeIn>
 
@@ -701,6 +760,21 @@ export function ConceptFlow() {
 
                 <FadeIn delay={0.06}>
                     <LayersDiagram />
+                </FadeIn>
+            </section>
+
+            {/* 7. Closing */}
+            <section className="py-24 border-t border-neutral-100">
+                <FadeIn className="text-center max-w-3xl mx-auto">
+                    <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-neutral-900 mb-6">
+                        So a neuron is a concept.
+                    </h2>
+                    <p className="text-lg text-neutral-500 leading-relaxed mb-6">
+                        Not a wire. Not a mathematical abstraction. A neuron in a trained network is a <em className="text-neutral-700 not-italic">detector</em> — quietly specialized to respond to one specific pattern in the world. Stacked together across layers, these detectors build from raw dots to meaningful ideas.
+                    </p>
+                    <p className="text-base text-neutral-400 leading-relaxed">
+                        This reframing matters. When you look at a neural network and see thousands of neurons, you&apos;re not looking at a tangle of math — you&apos;re looking at a vocabulary of learned concepts, some tangible, some nameless, all working together to represent the world.
+                    </p>
                 </FadeIn>
             </section>
 
