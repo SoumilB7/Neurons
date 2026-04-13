@@ -37,7 +37,7 @@ export default function Home() {
               <Link href="/neurons" className="group block h-full">
                 <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden h-full hover:shadow-lg hover:shadow-neutral-200/50 transition-all duration-300 flex flex-col">
                   <div className="w-full bg-neutral-50 border-b border-neutral-100 px-5 py-5 flex items-center justify-center h-[160px]">
-                    <svg viewBox="0 0 300 200" className="w-full h-auto" fill="none">
+                    <svg viewBox="0 0 300 200" className="h-full w-auto max-h-[120px]" fill="none">
                       <defs>
                         <clipPath id="left-half">
                           <rect x="70" y="20" width="80" height="160" />
