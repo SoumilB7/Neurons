@@ -179,6 +179,63 @@ export default function Home() {
                   </div>
                 </div>
               </Link>
+
+              {/* Card: Human Learning */}
+              <Link href="/human-learning" className="group block h-full">
+                <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden h-full hover:shadow-lg hover:shadow-neutral-200/50 transition-all duration-300 flex flex-col">
+                  <div className="w-full bg-neutral-50 border-b border-neutral-100 px-5 py-5 flex items-center justify-center h-[160px]">
+                    <svg viewBox="0 0 300 170" className="w-full h-auto" fill="none">
+                      <defs>
+                        <marker id="hl-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                          <path d="M 0 0 L 10 5 L 0 10 z" fill="#a3a3a3" />
+                        </marker>
+                      </defs>
+                      <g>
+                        <rect x="24" y="44" width="34" height="24" rx="5" fill="#fafafa" stroke="#d4d4d4" />
+                        <rect x="36" y="84" width="34" height="24" rx="5" fill="#fafafa" stroke="#d4d4d4" />
+                        <rect x="72" y="62" width="34" height="24" rx="5" fill="#fafafa" stroke="#d4d4d4" />
+                        <path d="M31 59 C38 50 47 51 52 59" stroke="#44403c" strokeWidth="1.2" strokeLinecap="round" />
+                        <path d="M43 99 C51 90 61 91 66 101" stroke="#44403c" strokeWidth="1.2" strokeLinecap="round" />
+                        <path d="M79 77 C87 68 97 69 102 79" stroke="#44403c" strokeWidth="1.2" strokeLinecap="round" />
+                        <path d="M112 72 C134 74 148 82 164 92" stroke="#d4d4d4" strokeWidth="1" markerEnd="url(#hl-arrow)" />
+                        <path d="M78 104 C112 112 140 108 164 98" stroke="#d4d4d4" strokeWidth="1" markerEnd="url(#hl-arrow)" />
+                      </g>
+                      <g>
+                        <path
+                          d="M177 48 C196 34 222 39 232 61 C254 64 268 82 262 103 C278 121 268 148 244 151 C230 170 198 171 182 154 C159 162 134 149 132 125 C112 114 111 86 130 73 C130 54 154 40 177 48 Z"
+                          fill="white"
+                          stroke="#1c1917"
+                          strokeWidth="1.5"
+                        />
+                        <path d="M154 97 C174 76 205 78 229 100" stroke="#d4d4d4" strokeWidth="1" strokeLinecap="round" />
+                        <path d="M151 119 C176 101 211 102 238 122" stroke="#a3a3a3" strokeWidth="1.2" strokeLinecap="round" />
+                        <circle cx="171" cy="96" r="3" fill="#44403c" opacity="0.55" />
+                        <circle cx="194" cy="87" r="3.5" fill="#1c1917" opacity="0.62" />
+                        <circle cx="218" cy="101" r="2.5" fill="#44403c" opacity="0.45" />
+                        <circle cx="183" cy="121" r="4" fill="#1c1917" opacity="0.65" />
+                        <circle cx="212" cy="124" r="3" fill="#44403c" opacity="0.48" />
+                        <rect x="165" y="109" width="72" height="22" rx="11" fill="#ffffff" stroke="#e5e5e5" />
+                        <text x="201" y="123" textAnchor="middle" fontSize="7" fill="#a3a3a3" fontFamily="monospace" fontWeight="600">NOT NAMED</text>
+                      </g>
+                    </svg>
+                  </div>
+                  <div className="p-5 flex flex-col flex-grow">
+                    <h3 className="text-base font-semibold mb-2 text-neutral-900 tracking-tight group-hover:text-black transition-colors">
+                      Human Learning
+                    </h3>
+                    <p className="text-xs leading-relaxed text-neutral-500 mb-4">
+                      How repeated moments become familiar before someone gives them a name.
+                    </p>
+                    <div className="flex items-center text-[10px] font-mono font-medium uppercase tracking-widest text-neutral-400 group-hover:text-neutral-900 transition-colors mt-auto">
+                      <span>Explore</span>
+                      <svg className="w-3 h-3 ml-1.5 -translate-x-1 group-hover:translate-x-0 transition-transform" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M3.33333 8H12.6667" />
+                        <path d="M8 3.33333L12.6667 8L8 12.6667" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </Link>
             </div>
           </div>
 
