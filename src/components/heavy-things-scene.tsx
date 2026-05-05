@@ -349,6 +349,14 @@ function MomentumCloud({ time, snapProgress }: { time: number; snapProgress: num
   const cloudBotExtent = Ry;
   const labelCy = cy - (cloudTopExtent - cloudBotExtent) * 0.5;
 
+  // Filled cloud path for the shaded interior hint
+  const N_FILL = 120;
+  const fillPath = Array.from({ length: N_FILL }, (_, i) => {
+    const θ = (i / N_FILL) * 2 * Math.PI;
+    const p = cloudPoint(θ + rotationAngle, cx, cy, Rx, Ry);
+    return `${i === 0 ? "M" : "L"}${p.x},${p.y}`;
+  }).join(" ") + " Z";
+
   return (
     <div style={{ position: "absolute", left: CLOUD.x, top: CLOUD.y, width: w, height: h }}>
       <div style={{ position: "absolute", inset: 0, border: `1px solid ${HAIRLINE}`, background: PAPER, overflow: "hidden" }}>
@@ -362,6 +370,9 @@ function MomentumCloud({ time, snapProgress }: { time: number; snapProgress: num
                   x2={plotR} y2={plotB - plotH * v}
                   stroke={INK} strokeWidth="0.5" opacity={0.07 * (1 - snapProgress)} />
           ))}
+
+          {/* Shaded cloud interior — subtle fill that fades in with the snap */}
+          <path d={fillPath} fill={INK} opacity={snapProgress * 0.07} />
 
           {/* Dots — each uses its own fixed φ so position is stable frame-to-frame */}
           {dots.map((d, i) => {
@@ -448,7 +459,7 @@ function SceneInner() {
 // ── Export ─────────────────────────────────────────────────────────────────────
 export function HeavyThingsScene() {
   return (
-    <Stage width={W} height={H} duration={16} background={PAPER} persistKey="neurons:heavy-things">
+    <Stage width={W} height={H} duration={22} background={PAPER} persistKey="neurons:heavy-things">
       <SceneInner />
     </Stage>
   );
