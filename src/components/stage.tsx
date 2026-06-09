@@ -38,10 +38,10 @@ function IconButton({ children, onClick, title }: {
       style={{
         width: 28, height: 28,
         display: "flex", alignItems: "center", justifyContent: "center",
-        background: hover ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.04)",
-        border: "1px solid rgba(255,255,255,0.1)",
+        background: hover ? "rgba(0,0,0,0.06)" : "transparent",
+        border: "1px solid rgba(0,0,0,0.12)",
         borderRadius: 6,
-        color: "#f6f4ef",
+        color: "#0a0a0a",
         cursor: "pointer",
         padding: 0,
         transition: "background 120ms",
@@ -63,6 +63,8 @@ function PlaybackBar({
 }) {
   const trackRef = React.useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = React.useState(false);
+  const [barHover, setBarHover] = React.useState(false);
+  const revealed = barHover || dragging;
 
   React.useEffect(() => {
     if (!dragging) return;
@@ -91,16 +93,21 @@ function PlaybackBar({
   };
 
   return (
-    <div style={{
-      display: "flex", alignItems: "center", gap: 12,
-      padding: "8px 16px",
-      background: "rgba(20,20,20,0.92)",
-      borderTop: "1px solid rgba(255,255,255,0.08)",
-      width: "100%",
-      color: "#f6f4ef",
-      userSelect: "none",
-      flexShrink: 0,
-    }}>
+    <div
+      onMouseEnter={() => setBarHover(true)}
+      onMouseLeave={() => setBarHover(false)}
+      style={{
+        display: "flex", alignItems: "center", gap: 12,
+        padding: "8px 16px",
+        background: "transparent",
+        width: "100%",
+        color: "#0a0a0a",
+        userSelect: "none",
+        flexShrink: 0,
+        opacity: revealed ? 1 : 0.28,
+        transition: "opacity 220ms ease",
+      }}
+    >
       <IconButton onClick={onReset} title="Return to start">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M3 2v10M12 2L5 7l7 5V2z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
@@ -119,7 +126,7 @@ function PlaybackBar({
         )}
       </IconButton>
 
-      <div style={{ fontFamily: MONO, fontSize: 12, fontVariantNumeric: "tabular-nums", width: 64, textAlign: "right", color: "#f6f4ef" }}>
+      <div style={{ fontFamily: MONO, fontSize: 12, fontVariantNumeric: "tabular-nums", width: 64, textAlign: "right", color: "#0a0a0a" }}>
         {fmt(time)}
       </div>
 
@@ -142,17 +149,17 @@ function PlaybackBar({
           cursor: "pointer", display: "flex", alignItems: "center",
         }}
       >
-        <div style={{ position: "absolute", left: 0, right: 0, height: 4, background: "rgba(255,255,255,0.12)", borderRadius: 2 }} />
-        <div style={{ position: "absolute", left: 0, width: `${pct}%`, height: 4, background: "#525252", borderRadius: 2 }} />
+        <div style={{ position: "absolute", left: 0, right: 0, height: 3, background: "rgba(0,0,0,0.12)", borderRadius: 2 }} />
+        <div style={{ position: "absolute", left: 0, width: `${pct}%`, height: 3, background: "rgba(0,0,0,0.55)", borderRadius: 2 }} />
         <div style={{
           position: "absolute", left: `${pct}%`, top: "50%",
-          width: 12, height: 12, marginLeft: -6, marginTop: -6,
-          background: "#fff", borderRadius: 6,
-          boxShadow: "0 2px 4px rgba(0,0,0,0.4)",
+          width: 10, height: 10, marginLeft: -5, marginTop: -5,
+          background: "#0a0a0a", borderRadius: 5,
+          boxShadow: "0 1px 2px rgba(0,0,0,0.15)",
         }} />
       </div>
 
-      <div style={{ fontFamily: MONO, fontSize: 12, fontVariantNumeric: "tabular-nums", width: 64, textAlign: "left", color: "rgba(246,244,239,0.55)" }}>
+      <div style={{ fontFamily: MONO, fontSize: 12, fontVariantNumeric: "tabular-nums", width: 64, textAlign: "left", color: "rgba(10,10,10,0.55)" }}>
         {fmt(duration)}
       </div>
     </div>
