@@ -180,6 +180,59 @@ export default function Home() {
                 </div>
               </Link>
 
+              {/* Card: Compression & Intelligence */}
+              <Link href="/compression" className="group block h-full">
+                <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden h-full hover:shadow-lg hover:shadow-neutral-200/50 transition-all duration-300 flex flex-col">
+                  <div className="w-full bg-neutral-50 border-b border-neutral-100 px-5 py-5 flex items-center justify-center h-[160px]">
+                    <svg viewBox="0 0 300 170" className="w-full h-auto" fill="none">
+                      {/* scattered data on the left */}
+                      <g fill="#a3a3a3">
+                        <circle cx="26" cy="40" r="2.5" />
+                        <circle cx="44" cy="66" r="2.5" />
+                        <circle cx="22" cy="92" r="2.5" />
+                        <circle cx="48" cy="116" r="2.5" />
+                        <circle cx="30" cy="138" r="2.5" />
+                        <circle cx="64" cy="52" r="2.5" />
+                        <circle cx="68" cy="100" r="2.5" />
+                        <circle cx="58" cy="128" r="2.5" />
+                      </g>
+                      {/* converging lines through a bottleneck */}
+                      <g stroke="#d4d4d4" strokeWidth="1">
+                        <path d="M30 40 C 90 60, 110 80, 150 85" />
+                        <path d="M48 66 C 95 72, 115 82, 150 85" />
+                        <path d="M26 92 C 95 88, 120 86, 150 85" />
+                        <path d="M52 116 C 95 100, 118 90, 150 85" />
+                        <path d="M34 138 C 95 110, 120 92, 150 85" />
+                        <path d="M68 52 C 100 66, 120 82, 150 85" />
+                        <path d="M72 100 C 105 92, 125 88, 150 85" />
+                        <path d="M62 128 C 100 104, 122 92, 150 85" />
+                      </g>
+                      {/* the bottleneck */}
+                      <line x1="150" y1="44" x2="150" y2="126" stroke="#e5e5e5" strokeWidth="1" strokeDasharray="3 4" />
+                      <circle cx="150" cy="85" r="6" fill="#1c1917" />
+                      {/* the small regenerating rule on the right */}
+                      <path d="M186 128 C 214 128, 226 50, 274 50" stroke="#1c1917" strokeWidth="2" strokeLinecap="round" />
+                      <text x="232" y="92" textAnchor="middle" fontSize="13" fill="#1c1917" fontFamily="monospace" fontStyle="italic">f(x)</text>
+                    </svg>
+                  </div>
+                  <div className="p-5 flex flex-col flex-grow">
+                    <h3 className="text-base font-semibold mb-2 text-neutral-900 tracking-tight group-hover:text-black transition-colors">
+                      Compression &amp; Intelligence
+                    </h3>
+                    <p className="text-xs leading-relaxed text-neutral-500 mb-4">
+                      Why making data smaller means predicting it, and why predicting the unseen forces an understanding of the world.
+                    </p>
+                    <div className="flex items-center text-[10px] font-mono font-medium uppercase tracking-widest text-neutral-400 group-hover:text-neutral-900 transition-colors mt-auto">
+                      <span>Explore</span>
+                      <svg className="w-3 h-3 ml-1.5 -translate-x-1 group-hover:translate-x-0 transition-transform" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M3.33333 8H12.6667" />
+                        <path d="M8 3.33333L12.6667 8L8 12.6667" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+
               {/* Card: Human Learning */}
               <Link href="/human-learning" className="group block h-full">
                 <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden h-full hover:shadow-lg hover:shadow-neutral-200/50 transition-all duration-300 flex flex-col">
